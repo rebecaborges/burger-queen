@@ -1,8 +1,9 @@
 import React from 'react';
+import '../style/Input.css';
 
 function Input(props) {
   return (
-    <input onChange={props.onChange} value={props.value} placeholder={props.text} />
+    <input className="style-input" onChange={props.onChange} value={props.value} placeholder={props.text} />
   );
 }
 

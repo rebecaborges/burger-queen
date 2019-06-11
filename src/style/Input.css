@@ -1,0 +1,12 @@
+.style-input {
+  align-content: center;
+  width: 50vw;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-color: black;
+
+  margin: 20px;
+  font-size: 30px;
+  
+}

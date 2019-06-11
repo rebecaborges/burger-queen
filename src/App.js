@@ -1,10 +1,9 @@
 import React from 'react';
 import './App.css';
-import './Button.css';
 import Button from './components/Button';
 import Input from './components/Input';
-
 import firebase from "./firebaseConfig";
+import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
 const database = firebase.firestore();
 
 class App extends React.Component {
@@ -12,9 +11,29 @@ class App extends React.Component {
     super(props);
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      listItem: []
+    
+  };
+}
 
-    };
+  handleClick = () =>{
+    const object = {
+      email: this.state.email,
+      password: this.state.password
+    }
+    database.collection('users').add(object)
+    this.setState({
+      listItem: this.state.listItem.concat(object)
+    })
+  }
+
+  componentDidMount() {
+    database.collection('users').get()
+      .then((querySnapshot)=> {
+      const data = querySnapshot.docs.map(doc => doc.data());
+      this.setState({listItem: data})
+    })
   }
 
   handleChangeEmail = (event) => {
@@ -27,19 +46,22 @@ class App extends React.Component {
 
   render() {
     return (
-     
-      <div className="App">
+      <div className="App image">
         <header className="App-header">
-          <p>Burger Queen</p>
-          <Input value={this.state.email}
-            onChange={this.handleChangeEmail} 
+          <p className="title">Burger Queen</p>
+          <Input className="style-input" value={this.state.email}
+            onChange={this.handleChangeEmail}
             text="Digite seu e-mail">
           </Input>
-          <Input value={this.state.password}
+          <Input className="style-input" value={this.state.password}
             onChange={this.handleChangePassword}
             text="Digite sua senha">
           </Input>
-          <Button text="Entrar" onClick={()=> alert(this.state.inputValue)}></Button>
+          <select className="selectStyle">
+            <option>cozinha</option>
+            <option>salão</option>
+          </select>
+          <Button text="Entrar" onClick={this.handleClick}></Button>
         </header>
       </div>
     );
