@@ -5,7 +5,9 @@
   border-radius: 25px;
   padding: 20px;
   border: none;
-  margin: 70px;
+  margin-top: 15px;
+  margin-bottom: 50px;
   color: white;
-  font-size: 25px;
+  font-size: 3vw;
+  content: auto;
 }

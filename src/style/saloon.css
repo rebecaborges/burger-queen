@@ -1,0 +1,27 @@
+.body{
+  margin: 0;
+}
+
+.App{
+  margin: 10px;
+  display: flex;
+  align-content: space-between;
+  color: white;
+  font-size: 5vw;
+  background-color: #0c0b0b63
+}
+
+.menu{
+  background-color: black;
+}
+
+
+.footer{
+  position: fixed;
+  width: 95vw;
+  height: 50px;
+  z-index: 0;
+  bottom: 0;
+  background-color: black;
+  font-size: 4vw;
+  }
