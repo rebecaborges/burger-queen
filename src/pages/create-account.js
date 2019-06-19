@@ -3,6 +3,7 @@ import Button from '../components/Button';
 import Input from '../components/Input';
 import firebase from '../firebaseConfig';
 import withFirebaseAuth from 'react-with-firebase-auth';
+import "../style/home.css"
 
 const firebaseAppAuth = firebase.auth();
 const database = firebase.firestore();
@@ -34,7 +35,6 @@ class CreateUser extends React.Component {
     this.setState({userType: event.target.value})
   }
 
-
   signUp = () => {
     const { email, name, userType } = this.state;
     this.props.createUserWithEmailAndPassword(this.state.email,
@@ -48,13 +48,13 @@ class CreateUser extends React.Component {
         })
         .then(() => {
           this.props.history.push(`/${this.state.userType}`)
+          alert('conta criado com sucesso')
         })
       
     });
   }
 
   render() {
-    console.log(this.props)
     return (
       <main className="App image">
           <p className="title">Burger Queen</p>
@@ -73,7 +73,7 @@ class CreateUser extends React.Component {
             text="Senha">
           </Input>
           <select className="selectStyle" onChange={(e) => this.handleChangeType(e)}>
-            <option selected >Local</option>
+            <option selected >Setor</option>
             <option value="kitchen">Cozinha</option>
             <option value="saloon">Salão</option>
           </select>

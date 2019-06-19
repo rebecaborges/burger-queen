@@ -1,112 +1,83 @@
 import React from 'react';
 import Button from '../components/Button';
 import '../style/saloon.css'
-
-
-const menu =[
-  {
-    produto: 'vegetariano',
-    preco: 30,
-  },
-  {
-    produto: 'coca',
-    preco: 5
-  },
-  {
-    produto: 'batata',
-    preco: 25
-  },
-  {
-    produto: 'sorvete',
-    preco: 5
-  },
-  {
-    produto: 'mousse',
-    preco: 8
-  },
-  {
-    produto: 'bolo',
-    preco: 5
-  }
-]
+import menu from '../menu.js';
 
 class Saloon extends React.Component{
   constructor(props){
     super(props);
     this.state={
-      comprar:[]
+      buy:[]
     }
   }
 
   cliqueDaCompra = (item)=> {
-    const itemIndex = this.state.comprar.findIndex((menu)=>{
-      return menu.produto === item.produto;
+    const itemIndex = this.state.buy.findIndex((menuItem)=>{
+      return menuItem.name === item.name;
     })
 
     if(itemIndex < 0){
       const newItem = {
         ...item,
-        quantidade: 1
+        amount: 1
       }
 
       this.setState({
-        comprar: this.state.comprar.concat(newItem)
+        buy: this.state.buy.concat(newItem)
       })
     } else {
-      let newComprar = this.state.comprar
-      newComprar[itemIndex].quantidade += 1;
+      let newBuy = this.state.buy
+      newBuy[itemIndex].amount += 1;
       this.setState({
-        comprar: newComprar
+        buy: newBuy
       });
     }    
 }
 
   
   delete = (item) =>{
-    const itemIndex = this.state.comprar.findIndex((menu)=>{
-      return menu.produto === item.produto;
+    const itemIndex = this.state.buy.findIndex((menuItem)=>{
+      return menuItem.name === item.name;
     })
 
-    let newComprar = this.state.comprar;
-    newComprar[itemIndex].quantidade -= 1;
+    let newBuy = this.state.buy;
+    newBuy[itemIndex].amount -= 1;
     this.setState({
-      comprar: newComprar
+      buy: newBuy
     });
 }
 
   render() {
-    const totalValue = this.state.comprar.reduce((acc, cur) => {
-      return acc + cur.quantidade * cur.preco
+    const totalValue = this.state.buy.reduce((acc, cur) => {
+      return acc + cur.amount * cur.price
     },0)
 
-    console.log(totalValue)
     return (
-
-      <div className="App">
+      <main className="App">
         <p>Menu</p>
-        <div className='menu'>
+        <header className='menu-style'>
         {
-          menu.map((menu, i) => 
+          menu.mainMenu.map((menuItem, i) => 
           {
-            return <Button text={menu.produto} key={i} 
-              onClick={()=> {this.cliqueDaCompra(menu)}}>
+            return <Button text={menuItem.name} key={i} 
+              onClick={()=> {this.cliqueDaCompra(menuItem)}}>
               </Button>
           })
         }
-        </div >
+        </header >
         {
-          this.state.comprar.map((menu, i)=>{
+          this.state.buy.map((menuItem, i)=>{
             return <div key={i}>
-              <p className='paragrath'> {menu.produto} -
-              {menu.preco * menu.quantidade} = 
-              {menu.quantidade}</p>
-              <button onClick={()=>this.delete(menu)}>Deleta</button>
+              <p className='paragrath'> 
+              {menuItem.name} -
+              {menuItem.price * menuItem.amount} = 
+              {menuItem.amount}</p>
+              <button className='btn-delete' onClick={()=>this.delete(menuItem)}>Deletar</button>
             </div>
           })
         }
         <h1 className='footer'>Valor total: {totalValue}</h1>
-      </div>
-
+      </main>
     );
   }
 }

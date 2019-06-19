@@ -3,15 +3,18 @@
 }
 
 .App{
-  margin: 10px;
+  margin: 20px;
   display: flex;
   align-content: space-between;
   color: white;
   font-size: 5vw;
   background-color: #0c0b0b63
+  
 }
 
-.menu{
+.menu-style{
+  display: flex;
+  justify-content: space-between;
   background-color: black;
 }
 
@@ -24,4 +27,8 @@
   bottom: 0;
   background-color: black;
   font-size: 4vw;
+  }
+
+  .btn-delete{
+    font-size: 4vw;
   }

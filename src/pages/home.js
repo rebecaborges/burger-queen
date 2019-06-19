@@ -30,7 +30,6 @@ class Home extends React.Component {
   }
 
   signIn = () => {
-    console.log(this.state)
     this.props.signInWithEmailAndPassword(this.state.email,
       this.state.password)
       .then((resp)=> {
@@ -40,7 +39,6 @@ class Home extends React.Component {
           const data = resp.data();
           this.props.history.push(`/${data.userType}`)
         })
-      
     });
 
   }
