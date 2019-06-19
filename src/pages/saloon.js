@@ -59,20 +59,20 @@ class Saloon extends React.Component{
         comprar: newComprar
       });
     }    
-  }
+}
 
   
-//   delete = (item) =>{
-//     const itemIndex = this.state.comprar.findIndex((menu)=>{
-//       return menu.produto === item.produto;
-//     })
+  delete = (item) =>{
+    const itemIndex = this.state.comprar.findIndex((menu)=>{
+      return menu.produto === item.produto;
+    })
 
-//     let newComprar = this.state.comprar
-//       newComprar[itemIndex].quantidade -= 1;
-//       this.setState({
-//         comprar: newComprar
-//       });
-// }
+    let newComprar = this.state.comprar;
+    newComprar[itemIndex].quantidade -= 1;
+    this.setState({
+      comprar: newComprar
+    });
+}
 
   render() {
     const totalValue = this.state.comprar.reduce((acc, cur) => {
@@ -96,11 +96,11 @@ class Saloon extends React.Component{
         </div >
         {
           this.state.comprar.map((menu, i)=>{
-            return <div>
-              <p className='paragrath' key={i}> {menu.produto} -
+            return <div key={i}>
+              <p className='paragrath'> {menu.produto} -
               {menu.preco * menu.quantidade} = 
               {menu.quantidade}</p>
-            
+              <button onClick={()=>this.delete(menu)}>Deleta</button>
             </div>
           })
         }

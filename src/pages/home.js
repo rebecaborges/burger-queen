@@ -10,35 +10,16 @@ const database = firebase.firestore();
 
 
 
-class App extends React.Component {
+class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: "",
       email: "",
       password: "",
-      listItem: []
-    
+      userType: ""
   };
 }
-
-  // handleClick = () =>{
-  //   const object = {
-  //     email: this.state.email,
-  //     password: this.state.password
-  //   }
-  //   database.collection('users').add(object)
-  //   this.setState({
-  //     listItem: this.state.listItem.concat(object)
-  //   })
-  // }
-
-  componentDidMount() {
-    database.collection('users').get()
-      .then((querySnapshot)=> {
-      const data = querySnapshot.docs.map(doc => doc.data());
-      this.setState({listItem: data})
-    })
-  }
 
   handleChangeEmail = (event) => {
     this.setState({email: event.target.value})
@@ -48,40 +29,40 @@ class App extends React.Component {
     this.setState({password: event.target.value})
   }
 
-  createUser = () => {
-    this.props.createUserWithEmailAndPassword(this.state.email,
-      this.state.password)
-      .then(()=>
-      alert('Conta criada com sucesso!'))
-  }
-
-  signUser = () => {
+  signIn = () => {
+    console.log(this.state)
     this.props.signInWithEmailAndPassword(this.state.email,
       this.state.password)
-      .then(()=> 
-      alert('logou'));
+      .then((resp)=> {
+        const id = resp.user.uid;
+        database.collection('users').doc(id).get()
+        .then(resp => {
+          const data = resp.data();
+          this.props.history.push(`/${data.userType}`)
+        })
+      
+    });
+
   }
 
   render() {
-    console.log(this.props)
     return (
-      <div className="App image">
+      <main className="App image">
           <p className="title">Burger Queen</p>
-          <Input className="style-input" value={this.state.email}
+          <Input className="style-input" 
+            value={this.state.email}
             onChange={this.handleChangeEmail}
             text="Digite seu e-mail">
           </Input>
-          <Input className="style-input" value={this.state.password}
+          <Input className="style-input" 
+            type="password" 
+            value={this.state.password}
             onChange={this.handleChangePassword}
             text="Digite sua senha">
           </Input>
-          <select className="selectStyle" onChange={(e) => this.handleChangeEmail(e)}>
-            <option selected>cozinha</option>
-            <option>salão</option>
-          </select>
-          <Button text="Logar" onClick={this.signUser}></Button>
-          <Button text="Criar Conta" onClick={this.createUser}></Button>
-      </div>
+          <Button text="Logar" onClick={this.signIn}></Button>
+          <Link className="App" to='./create-account'>Criar conta</Link>
+      </main>
     );
   }
 }
@@ -89,4 +70,4 @@ class App extends React.Component {
 
 export default withFirebaseAuth({
   firebaseAppAuth,
-})(App);
+})(Home);
